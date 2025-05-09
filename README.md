@@ -197,10 +197,23 @@ This approach ensures that every node type defined in the Python AST grammar is 
 ## Usage
 
 ```bash
-python ast_parser.py your_file.py -o output
+python cli.py your_file.py -o output
 ```
 
 This will generate an SVG or PNG file named `output.svg` or `output.png` containing the AST visualization.
+
+For example:
+```bash
+python cli.py test_0.py -o ast_0
+```
+
+## Project Structure
+
+- `cli.py` — Command-line entry point for the tool
+- `ast_parser.py` — API for parsing Python code to AST
+- `ast_handlers.py` — AST node handler logic
+- `dot_render.py` — Graphviz rendering logic
+- `viz_config.py` — Color and legend configuration
 
 ## Example
 
@@ -216,4 +229,45 @@ The visualization will show:
 - Name nodes (lightpink)
 - String constant (lightpink)
 - Binary operation (lightyellow)
-- Return statement (lightgreen) 
+- Return statement (lightgreen)
+
+## Test Files and Outputs
+
+Below are the test files used for visualization and their corresponding output files:
+
+### test_0.py
+```python
+x = 1
+
+def hello():
+    print("Hello, world!")
+```
+**Output:** `tests/ast_0.png`
+![AST Visualization for test_0.py](tests/ast_0.png)
+
+### test_1.py
+```python
+class TestClass:
+    def __init__(self, value):
+        self.value = value
+
+    def get_value(self):
+        return self.value
+
+if __name__ == "__main__":
+    obj = TestClass(42)
+    print(obj.get_value())
+```
+**Output:** `tests/ast_1.png`
+![AST Visualization for test_1.py](tests/ast_1.png)
+
+### test_2.py
+```python
+numbers = [1, 2, 3, 4, 5]
+squared = [n ** 2 for n in numbers]
+
+for num in squared:
+    print(num)
+```
+**Output:** `tests/ast_2.png`
+![AST Visualization for test_2.py](tests/ast_2.png) 
