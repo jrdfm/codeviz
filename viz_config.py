@@ -5,33 +5,33 @@ NODE_COLORS = {
     'Expression': 'lightblue',
     'FunctionType': 'lightblue',
     # Statements
-    'FunctionDef': 'lightgreen',
-    'AsyncFunctionDef': 'lightgreen',
-    'ClassDef': 'lightgreen',
-    'Return': 'lightgreen',
-    'Delete': 'lightgreen',
-    'Assign': 'lightgreen',
-    'AugAssign': 'lightgreen',
-    'AnnAssign': 'lightgreen',
-    'For': 'lightgreen',
-    'AsyncFor': 'lightgreen',
-    'While': 'lightgreen',
-    'If': 'lightgreen',
-    'With': 'lightgreen',
-    'AsyncWith': 'lightgreen',
-    'Match': 'lightgreen',
-    'Raise': 'lightgreen',
-    'Try': 'lightgreen',
-    'TryStar': 'lightgreen',
-    'Assert': 'lightgreen',
-    'Import': 'lightgreen',
-    'ImportFrom': 'lightgreen',
-    'Global': 'lightgreen',
-    'Nonlocal': 'lightgreen',
-    'Expr': 'lightgreen',
-    'Pass': 'lightgreen',
-    'Break': 'lightgreen',
-    'Continue': 'lightgreen',
+    'FunctionDef': '#90ee90',
+    'AsyncFunctionDef': '#90ee90',
+    'ClassDef': '#90ee90',
+    'Return': '#90ee90',
+    'Delete': '#90ee90',
+    'Assign': '#90ee90',
+    'AugAssign': '#90ee90',
+    'AnnAssign': '#90ee90',
+    'For': '#90ee90',
+    'AsyncFor': '#90ee90',
+    'While': '#90ee90',
+    'If': '#90ee90',
+    'With': '#90ee90',
+    'AsyncWith': '#90ee90',
+    'Match': '#90ee90',
+    'Raise': '#90ee90',
+    'Try': '#90ee90',
+    'TryStar': '#90ee90',
+    'Assert': '#90ee90',
+    'Import': '#90ee90',
+    'ImportFrom': '#90ee90',
+    'Global': '#90ee90',
+    'Nonlocal': '#90ee90',
+    'Expr': '#90ee90',
+    'Pass': '#90ee90',
+    'Break': '#90ee90',
+    'Continue': '#90ee90',
     # Expressions
     'BoolOp': 'lightyellow',
     'NamedExpr': 'lightyellow',
@@ -120,4 +120,13 @@ LEGEND = [
     ("<B>Operator</B><BR/>(arithmetic,<BR/>bitwise,<BR/>comparison,<BR/>boolean,<BR/>unary)", 'Add'),
     ("Control Flow", 'If'),
     ("<B>Container/Context</B><BR/>(lists,<BR/>dicts,<BR/>sets,<BR/>tuples,<BR/>Load/Store/Del)", 'List'),
-] 
+]
+
+_missing_node_types = set()
+
+def get_node_color(node_type):
+    if node_type not in NODE_COLORS:
+        if node_type not in _missing_node_types:
+            print(f"[viz_config] Missing color for node type: {node_type}")
+            _missing_node_types.add(node_type)
+    return NODE_COLORS.get(node_type, "white") 

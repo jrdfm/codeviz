@@ -10,7 +10,7 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
     - Adds a color legend at the bottom of the graph.
     """
     dot = Digraph(name=name, format='png')
-    dot.attr('node', **(node_attrs or {'shape': 'box', 'fontname': 'Consolas', 'margin': '0.1,0.05'}))
+    dot.attr('node', shape='box', fontname='Consolas', margin='0,0.2', fontsize='10', fixedsize='false', width='1.25')
     dot.attr('graph', **(graph_attrs or {'rankdir': 'TB', 'ranksep': '0.75'}))
     dot.attr('edge', **(edge_attrs or {'fontname': 'Consolas', 'fontsize': '10'}))
     node_counter = [0]
@@ -115,7 +115,7 @@ def add_legend(dot: Digraph, legend_data, get_color_func) -> None:
     dot.node(anchor_id, label='', shape='point', width='0.01', height='0.01', style='invis')
     with dot.subgraph(name='cluster_legend') as legend:
         legend.attr(label='Legend', fontsize='16', fontname='Consolas', style='dashed')
-        legend.attr('node', shape='box', width='1', height='0.3', style='filled', fontname='Consolas')
+        legend.attr('node', shape='box', width='1.9', height='0.3', style='filled', fontname='Consolas')
         for label, node_type in legend_data:
             color = get_color_func(node_type)
             legend.node(f'legend_{node_type}', label=f"<{label}>", fillcolor=color)

@@ -1,0 +1,51 @@
+digraph ast {
+	node [fontname=Consolas margin="0.1,0.05" shape=box]
+	graph [rankdir=TB ranksep=0.75]
+	edge [fontname=Consolas fontsize=10]
+	node_1 [label=<Module> fillcolor=lightblue shape=box style=filled]
+	node_2 [label=<body> fillcolor="#f8f8f8" shape=box style="filled,dashed"]
+	node_1 -> node_2
+	node_3 [label=<Assign<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_2 -> node_3
+	node_4 [label=<Name: x<BR/>ctx: Store<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_3 -> node_4
+	node_5 [label=<Store> fillcolor=lightgrey shape=box style=filled]
+	node_4 -> node_5
+	node_6 [label=<Constant: 1<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_3 -> node_6
+	node_7 [label=<<B>FunctionDef</B><BR/>name: hello<BR/><FONT POINT-SIZE="10">line: 3-4</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_2 -> node_7
+	node_8 [label=<arguments> fillcolor=white shape=box style=filled]
+	node_7 -> node_8
+	node_9 [label=<Expr<BR/><FONT POINT-SIZE="10">line: 4</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_7 -> node_9
+	node_10 [label=<Call<BR/><FONT POINT-SIZE="10">line: 4</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_9 -> node_10
+	node_11 [label=<Name: print<BR/><FONT POINT-SIZE="10">line: 4</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_10 -> node_11
+	node_12 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_11 -> node_12
+	node_13 [label=<Constant: Hello, world!<BR/><FONT POINT-SIZE="10">line: 4</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_10 -> node_13
+	legend_anchor [label="" height=0.01 shape=point style=invis width=0.01]
+	subgraph cluster_legend {
+		fontname=Consolas fontsize=16 label=Legend style=dashed
+		node [fontname=Consolas height=0.3 shape=box style=filled width=1]
+		legend_Module [label=<Module Level> fillcolor=lightblue]
+		legend_FunctionDef [label=<Statement> fillcolor=lightgreen]
+		legend_BinOp [label=<Expression> fillcolor=lightyellow]
+		legend_Name [label=<Name/Constant> fillcolor=lightpink]
+		legend_Add [label=<<B>Operator</B><BR/>(arithmetic,<BR/>bitwise,<BR/>comparison,<BR/>boolean,<BR/>unary)> fillcolor=orange]
+		legend_If [label=<Control Flow> fillcolor=plum]
+		legend_List [label=<<B>Container/Context</B><BR/>(lists,<BR/>dicts,<BR/>sets,<BR/>tuples,<BR/>Load/Store/Del)> fillcolor=lightgrey]
+		rank=same
+		legend_Module -> legend_FunctionDef [style=invis]
+		legend_FunctionDef -> legend_BinOp [style=invis]
+		legend_BinOp -> legend_Name [style=invis]
+		legend_Name -> legend_Add [style=invis]
+		legend_Add -> legend_If [style=invis]
+		legend_If -> legend_List [style=invis]
+	}
+	rank=same
+	legend_anchor -> legend_Module [constraint=false style=invis]
+}

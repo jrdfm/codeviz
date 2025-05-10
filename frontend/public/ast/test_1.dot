@@ -1,0 +1,123 @@
+digraph ast {
+	node [fontname=Consolas margin="0.1,0.05" shape=box]
+	graph [rankdir=TB ranksep=0.75]
+	edge [fontname=Consolas fontsize=10]
+	node_1 [label=<Module> fillcolor=lightblue shape=box style=filled]
+	node_2 [label=<body> fillcolor="#f8f8f8" shape=box style="filled,dashed"]
+	node_1 -> node_2
+	node_3 [label=<ClassDef<BR/><FONT POINT-SIZE="10">line: 1-6</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_2 -> node_3
+	node_4 [label=<body> fillcolor="#f8f8f8" shape=box style="filled,dashed"]
+	node_3 -> node_4
+	node_5 [label=<<B>FunctionDef</B><BR/>name: __init__<BR/><FONT POINT-SIZE="10">line: 2-3</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_4 -> node_5
+	node_6 [label=<arguments> fillcolor=white shape=box style=filled]
+	node_5 -> node_6
+	node_7 [label=<args> fillcolor="#f8f8f8" shape=box style="filled,dashed"]
+	node_6 -> node_7
+	node_8 [label=<arg: self<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=white shape=box style=filled]
+	node_7 -> node_8
+	node_9 [label=<arg: value<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=white shape=box style=filled]
+	node_7 -> node_9
+	node_10 [label=<Assign<BR/><FONT POINT-SIZE="10">line: 3</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_5 -> node_10
+	node_11 [label=<Attribute<BR/><FONT POINT-SIZE="10">line: 3</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_10 -> node_11
+	node_12 [label=<Store> fillcolor=lightgrey shape=box style=filled]
+	node_11 -> node_12
+	node_13 [label=<Name: self<BR/><FONT POINT-SIZE="10">line: 3</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_11 -> node_13
+	node_14 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_13 -> node_14
+	node_15 [label=<Name: value<BR/><FONT POINT-SIZE="10">line: 3</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_10 -> node_15
+	node_16 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_15 -> node_16
+	node_17 [label=<<B>FunctionDef</B><BR/>name: get_value<BR/><FONT POINT-SIZE="10">line: 5-6</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_4 -> node_17
+	node_18 [label=<arguments> fillcolor=white shape=box style=filled]
+	node_17 -> node_18
+	node_19 [label=<arg: self<BR/><FONT POINT-SIZE="10">line: 5</FONT>> fillcolor=white shape=box style=filled]
+	node_18 -> node_19
+	node_20 [label=<<B>Return</B><BR/><FONT POINT-SIZE="10">line: 6</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_17 -> node_20
+	node_21 [label=<Attribute<BR/><FONT POINT-SIZE="10">line: 6</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_20 -> node_21
+	node_22 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_21 -> node_22
+	node_23 [label=<Name: self<BR/><FONT POINT-SIZE="10">line: 6</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_21 -> node_23
+	node_24 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_23 -> node_24
+	node_25 [label=<If<BR/><FONT POINT-SIZE="10">line: 8-10</FONT>> fillcolor=plum shape=box style=filled]
+	node_2 -> node_25
+	node_26 [label=<Compare<BR/><FONT POINT-SIZE="10">line: 8</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_25 -> node_26
+	node_27 [label=<ops> fillcolor=white shape=box style=filled]
+	node_26 -> node_27
+	node_28 [label=<Eq> fillcolor=orange shape=box style=filled]
+	node_27 -> node_28
+	node_29 [label=<Name: __name__<BR/><FONT POINT-SIZE="10">line: 8</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_26 -> node_29
+	node_30 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_29 -> node_30
+	node_31 [label=<comparators> fillcolor=white shape=box style=filled]
+	node_26 -> node_31
+	node_32 [label=<Constant: __main__<BR/><FONT POINT-SIZE="10">line: 8</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_31 -> node_32
+	node_33 [label=<body> fillcolor="#f8f8f8" shape=box style="filled,dashed"]
+	node_25 -> node_33
+	node_34 [label=<Assign<BR/><FONT POINT-SIZE="10">line: 9</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_33 -> node_34
+	node_35 [label=<Name: obj<BR/>ctx: Store<BR/><FONT POINT-SIZE="10">line: 9</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_34 -> node_35
+	node_36 [label=<Store> fillcolor=lightgrey shape=box style=filled]
+	node_35 -> node_36
+	node_37 [label=<Call<BR/><FONT POINT-SIZE="10">line: 9</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_34 -> node_37
+	node_38 [label=<Name: TestClass<BR/><FONT POINT-SIZE="10">line: 9</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_37 -> node_38
+	node_39 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_38 -> node_39
+	node_40 [label=<Constant: 42<BR/><FONT POINT-SIZE="10">line: 9</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_37 -> node_40
+	node_41 [label=<Expr<BR/><FONT POINT-SIZE="10">line: 10</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_33 -> node_41
+	node_42 [label=<Call<BR/><FONT POINT-SIZE="10">line: 10</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_41 -> node_42
+	node_43 [label=<Name: print<BR/><FONT POINT-SIZE="10">line: 10</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_42 -> node_43
+	node_44 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_43 -> node_44
+	node_45 [label=<Call<BR/><FONT POINT-SIZE="10">line: 10</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_42 -> node_45
+	node_46 [label=<Attribute<BR/><FONT POINT-SIZE="10">line: 10</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_45 -> node_46
+	node_47 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_46 -> node_47
+	node_48 [label=<Name: obj<BR/><FONT POINT-SIZE="10">line: 10</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_46 -> node_48
+	node_49 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_48 -> node_49
+	legend_anchor [label="" height=0.01 shape=point style=invis width=0.01]
+	subgraph cluster_legend {
+		fontname=Consolas fontsize=16 label=Legend style=dashed
+		node [fontname=Consolas height=0.3 shape=box style=filled width=1]
+		legend_Module [label=<Module Level> fillcolor=lightblue]
+		legend_FunctionDef [label=<Statement> fillcolor=lightgreen]
+		legend_BinOp [label=<Expression> fillcolor=lightyellow]
+		legend_Name [label=<Name/Constant> fillcolor=lightpink]
+		legend_Add [label=<<B>Operator</B><BR/>(arithmetic,<BR/>bitwise,<BR/>comparison,<BR/>boolean,<BR/>unary)> fillcolor=orange]
+		legend_If [label=<Control Flow> fillcolor=plum]
+		legend_List [label=<<B>Container/Context</B><BR/>(lists,<BR/>dicts,<BR/>sets,<BR/>tuples,<BR/>Load/Store/Del)> fillcolor=lightgrey]
+		rank=same
+		legend_Module -> legend_FunctionDef [style=invis]
+		legend_FunctionDef -> legend_BinOp [style=invis]
+		legend_BinOp -> legend_Name [style=invis]
+		legend_Name -> legend_Add [style=invis]
+		legend_Add -> legend_If [style=invis]
+		legend_If -> legend_List [style=invis]
+	}
+	rank=same
+	legend_anchor -> legend_Module [constraint=false style=invis]
+}

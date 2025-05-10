@@ -1,0 +1,103 @@
+digraph ast {
+	node [fontname=Consolas margin="0.1,0.05" shape=box]
+	graph [rankdir=TB ranksep=0.75]
+	edge [fontname=Consolas fontsize=10]
+	node_1 [label=<Module> fillcolor=lightblue shape=box style=filled]
+	node_2 [label=<body> fillcolor="#f8f8f8" shape=box style="filled,dashed"]
+	node_1 -> node_2
+	node_3 [label=<Assign<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_2 -> node_3
+	node_4 [label=<Name: numbers<BR/>ctx: Store<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_3 -> node_4
+	node_5 [label=<Store> fillcolor=lightgrey shape=box style=filled]
+	node_4 -> node_5
+	node_6 [label=<List<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightgrey shape=box style=filled]
+	node_3 -> node_6
+	node_7 [label=<elts> fillcolor="#f8f8f8" shape=box style="filled,dashed"]
+	node_6 -> node_7
+	node_8 [label=<Constant: 1<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_7 -> node_8
+	node_9 [label=<Constant: 2<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_7 -> node_9
+	node_10 [label=<Constant: 3<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_7 -> node_10
+	node_11 [label=<Constant: 4<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_7 -> node_11
+	node_12 [label=<Constant: 5<BR/><FONT POINT-SIZE="10">line: 1</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_7 -> node_12
+	node_13 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_6 -> node_13
+	node_14 [label=<Assign<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_2 -> node_14
+	node_15 [label=<Name: squared<BR/>ctx: Store<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_14 -> node_15
+	node_16 [label=<Store> fillcolor=lightgrey shape=box style=filled]
+	node_15 -> node_16
+	node_17 [label=<ListComp<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_14 -> node_17
+	node_18 [label=<<B>BinOp</B><BR/>op: Pow<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_17 -> node_18
+	node_19 [label=<Pow> fillcolor=orange shape=box style=filled]
+	node_18 -> node_19
+	node_20 [label=<Name: n<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_18 -> node_20
+	node_21 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_20 -> node_21
+	node_22 [label=<Constant: 2<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_18 -> node_22
+	node_23 [label=<generators> fillcolor=white shape=box style=filled]
+	node_17 -> node_23
+	node_24 [label=<comprehension> fillcolor=white shape=box style=filled]
+	node_23 -> node_24
+	node_25 [label=<Name: n<BR/>ctx: Store<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_24 -> node_25
+	node_26 [label=<Store> fillcolor=lightgrey shape=box style=filled]
+	node_25 -> node_26
+	node_27 [label=<Name: numbers<BR/><FONT POINT-SIZE="10">line: 2</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_24 -> node_27
+	node_28 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_27 -> node_28
+	node_29 [label=<For<BR/><FONT POINT-SIZE="10">line: 4-5</FONT>> fillcolor=plum shape=box style=filled]
+	node_2 -> node_29
+	node_30 [label=<Name: num<BR/>ctx: Store<BR/><FONT POINT-SIZE="10">line: 4</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_29 -> node_30
+	node_31 [label=<Store> fillcolor=lightgrey shape=box style=filled]
+	node_30 -> node_31
+	node_32 [label=<Name: squared<BR/><FONT POINT-SIZE="10">line: 4</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_29 -> node_32
+	node_33 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_32 -> node_33
+	node_34 [label=<Expr<BR/><FONT POINT-SIZE="10">line: 5</FONT>> fillcolor=lightgreen shape=box style=filled]
+	node_29 -> node_34
+	node_35 [label=<Call<BR/><FONT POINT-SIZE="10">line: 5</FONT>> fillcolor=lightyellow shape=box style=filled]
+	node_34 -> node_35
+	node_36 [label=<Name: print<BR/><FONT POINT-SIZE="10">line: 5</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_35 -> node_36
+	node_37 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_36 -> node_37
+	node_38 [label=<Name: num<BR/><FONT POINT-SIZE="10">line: 5</FONT>> fillcolor=lightpink shape=box style=filled]
+	node_35 -> node_38
+	node_39 [label=<Load> fillcolor=lightgrey shape=box style=filled]
+	node_38 -> node_39
+	legend_anchor [label="" height=0.01 shape=point style=invis width=0.01]
+	subgraph cluster_legend {
+		fontname=Consolas fontsize=16 label=Legend style=dashed
+		node [fontname=Consolas height=0.3 shape=box style=filled width=1]
+		legend_Module [label=<Module Level> fillcolor=lightblue]
+		legend_FunctionDef [label=<Statement> fillcolor=lightgreen]
+		legend_BinOp [label=<Expression> fillcolor=lightyellow]
+		legend_Name [label=<Name/Constant> fillcolor=lightpink]
+		legend_Add [label=<<B>Operator</B><BR/>(arithmetic,<BR/>bitwise,<BR/>comparison,<BR/>boolean,<BR/>unary)> fillcolor=orange]
+		legend_If [label=<Control Flow> fillcolor=plum]
+		legend_List [label=<<B>Container/Context</B><BR/>(lists,<BR/>dicts,<BR/>sets,<BR/>tuples,<BR/>Load/Store/Del)> fillcolor=lightgrey]
+		rank=same
+		legend_Module -> legend_FunctionDef [style=invis]
+		legend_FunctionDef -> legend_BinOp [style=invis]
+		legend_BinOp -> legend_Name [style=invis]
+		legend_Name -> legend_Add [style=invis]
+		legend_Add -> legend_If [style=invis]
+		legend_If -> legend_List [style=invis]
+	}
+	rank=same
+	legend_anchor -> legend_Module [constraint=false style=invis]
+}
