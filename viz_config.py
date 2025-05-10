@@ -55,8 +55,8 @@ NODE_COLORS = {
     'Attribute': 'lightyellow',
     'Subscript': 'lightyellow',
     'Starred': 'lightyellow',
-    'List': 'lightyellow',
-    'Tuple': 'lightyellow',
+    'List': 'lightgrey',
+    'Tuple': 'lightgrey',
     'Slice': 'lightyellow',
     # Names and Constants
     'Name': 'lightpink',
@@ -95,12 +95,12 @@ NODE_COLORS = {
     'UAdd': 'orange',
     'USub': 'orange',
     # Control Flow
-    'If': 'plum',
-    'For': 'plum',
-    'While': 'plum',
-    'Try': 'plum',
-    'With': 'plum',
-    'Match': 'plum',
+    'If': '#90ee90',
+    'For': '#90ee90',
+    'While': '#90ee90',
+    'Try': '#90ee90',
+    'With': '#90ee90',
+    'Match': '#90ee90',
     # Containers
     'List': 'lightgrey',
     'Dict': 'lightgrey',
@@ -118,7 +118,6 @@ LEGEND = [
     ("Expression", 'BinOp'),
     ("Name/Constant", 'Name'),
     ("<B>Operator</B><BR/>(arithmetic,<BR/>bitwise,<BR/>comparison,<BR/>boolean,<BR/>unary)", 'Add'),
-    ("Control Flow", 'If'),
     ("<B>Container/Context</B><BR/>(lists,<BR/>dicts,<BR/>sets,<BR/>tuples,<BR/>Load/Store/Del)", 'List'),
 ]
 

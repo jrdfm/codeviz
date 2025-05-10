@@ -37,7 +37,6 @@ class ASTNodeHandler:
         """Handle BinOp nodes."""
         return {
             **ASTNodeHandler.get_node_attributes(node),
-            "op": node.op.__class__.__name__
         }
     @staticmethod
     def handle_joinedstr(node: ast.JoinedStr) -> Dict[str, Any]:
@@ -60,14 +59,12 @@ class ASTNodeHandler:
         """Handle UnaryOp nodes."""
         return {
             **ASTNodeHandler.get_node_attributes(node),
-            "op": node.op.__class__.__name__
         }
     @staticmethod
     def handle_compare(node: ast.Compare) -> Dict[str, Any]:
         """Handle Compare nodes."""
         return {
             **ASTNodeHandler.get_node_attributes(node),
-            "ops": [op.__class__.__name__ for op in node.ops]
         }
     @staticmethod
     def handle_attribute(node: ast.Attribute) -> Dict[str, Any]:
@@ -114,7 +111,9 @@ def ast_to_dict(node) -> dict:
         node_dict = handler(node)
     else:
         node_dict = ASTNodeHandler.get_node_attributes(node)
+    # Iterate over all fields in the AST node
     for field, value in ast.iter_fields(node):
+        # Skip fields that are not relevant to the AST node
         if field in ['lineno', 'col_offset', 'end_lineno', 'end_col_offset']:
             continue
         if value is None:
@@ -123,6 +122,7 @@ def ast_to_dict(node) -> dict:
         if field in ['name', 'id', 'arg']:
             node_dict[field] = value
             continue
+        # For list fields, recursively convert each item
         if isinstance(value, list):
             node_dict[field] = [ast_to_dict(v) for v in value]
         else:
