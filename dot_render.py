@@ -103,13 +103,13 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
             color_hex = get_color_func_internal(node_type_legend)
             html_table_rows.append(
                 f'<TR><TD WIDTH="15" HEIGHT="15" FIXEDSIZE="TRUE" BGCOLOR="{color_hex}"> </TD> ' \
-                f'<TD ALIGN="LEFT"><FONT POINT-SIZE="8">{label_text}</FONT></TD></TR>'
+                f'<TD ALIGN="LEFT"><FONT POINT-SIZE="7">{label_text}</FONT></TD></TR>'
             )
         
         html_table_string = ''
         if html_table_rows:
             html_table_string = '<' + \
-                                '<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2" CELLPADDING="2">' + \
+                                '<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="1" CELLPADDING="1">' + \
                                 ''.join(html_table_rows) + \
                                 '</TABLE>' + '>'
 
@@ -246,7 +246,6 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
         dot.node(bottom_anchor_name, style='invis', height='0.01', width='0.01', label='', group='legend_group')
         add_legend(dot, LEGEND, get_node_color, bottom_anchor_name)
     
-    print(f"---- DOT SOURCE ----\n{dot.source}\n---- END DOT SOURCE ----")
     return dot
 
 # The global add_legend function is now REMOVED from here, as its definition is moved inside generate_dot. 
