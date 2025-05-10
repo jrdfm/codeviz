@@ -561,7 +561,9 @@ for num in squared:
 ## Future Enhancements / TODO
 
 This section outlines potential future improvements and features, largely inspired by the project's roadmap. Contributions are welcome!
-
+### Possible bugs
+- If(expr test, stmt* body, stmt* orelse): is Control Flow but IfExp(expr test, expr body, expr orelse) is Expression ??? What is control flow exactly in the ast?
+- Everything should be inside the body box?
 ### Core Functionality & Visualization
 - **Node Tooltips**: Implement tooltips in the web viewer to show more detailed information about an AST node on hover.
 - **Edge Labels**: Add labels to edges in the graph to clarify the relationships between nodes (e.g., 'child', 'operand', 'body').
