@@ -521,16 +521,6 @@ The visualization will show:
 
 Below are the test files used for visualization and their corresponding output files:
 
-### test_0.py
-```python
-x = 1
-
-def hello():
-    print("Hello, world!")
-```
-**Output:** `tests/ast_0.png`
-![AST Visualization for test_0.py](tests/ast_0.png)
-
 ### test_1.py
 ```python
 class TestClass:
@@ -543,20 +533,40 @@ class TestClass:
 if __name__ == "__main__":
     obj = TestClass(42)
     print(obj.get_value())
+    
 ```
-**Output:** `tests/ast_1.png`
-![AST Visualization for test_1.py](tests/ast_1.png)
+**Output:** `python_examples/test_1.png`
+![AST Visualization for test_1.py](python_examples/test_1.png)
 
-### test_2.py
+### inner_fun.py
 ```python
-numbers = [1, 2, 3, 4, 5]
-squared = [n ** 2 for n in numbers]
 
-for num in squared:
-    print(num)
+def outer_function(x):
+    def inner_function1(z):
+        return x + z
+    def inner_function2(y):
+        return x + y
+    return inner_function1 if x > 0 else inner_function2
+
+result = outer_function(10)(20)
+print(result)
+    
 ```
-**Output:** `tests/ast_2.png`
-![AST Visualization for test_2.py](tests/ast_2.png)
+**Output:** `python_examples/inner.png`
+![AST Visualization for inner_fun.py](python_examples/inner.png)
+
+### class_with_methods.py
+```python
+class Counter:
+    def __init__(self, start=0):
+        self.value = start
+    def increment(self):
+        self.value += 1
+    def get(self):
+        return self.value 
+```
+**Output:** `class_with_methods.png`
+![AST Visualization for class_with_methods.py](python_examples/class_with_methods.png)
 
 ## Future Enhancements / TODO
 
