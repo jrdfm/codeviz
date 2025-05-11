@@ -48,9 +48,9 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
         elif t == 'arg': main_label_content = f"arg: {node_dict.get('arg', '')}"
         elif t == 'Return': main_label_content = f"<B>Return</B>"
         elif t == 'BinOp':
-            op = node_dict.get('op', '');
-            if isinstance(op, dict) and 'type' in op: op = op['type']
-            main_label_content = f"<B>BinOp</B><BR/>op: {op}"
+            # op = node_dict.get('op', ''); # Ensure this line is commented or removed
+            # if isinstance(op, dict) and 'type' in op: op = op['type'] # Ensure this line is commented or removed
+            main_label_content = f"<B>BinOp</B>" # Corrected label
         elif t == 'Name':
             ctx_value = node_dict.get('ctx')
             ctx_type_str = ''
@@ -132,8 +132,11 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
             if anchor_for_positioning:
                 main_dot_graph.edge(anchor_for_positioning, internal_legend_node, style='invis', constraint='false') 
 
-    def _add_nodes_recursive(current_digraph_obj, ast_node, parent_id_for_edge=None):
+    def _add_nodes_recursive(current_digraph_obj, ast_node, parent_id_for_edge=None, edge_label_from_parent=None):
         if not isinstance(ast_node, dict) or 'type' not in ast_node or not isinstance(ast_node['type'], str):
+            # Potentially handle simple string/value nodes if they are meant to be drawn, 
+            # though current logic might skip them if they don't have a 'type'.
+            # For now, if it's not a processable dict, just return.
             return None
 
         node_type = ast_node['type']
@@ -155,68 +158,50 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
                         if filtered_body_items:
                             nested_body_cluster_name = f"cluster_body_{node_type.lower()}_{get_unique_id()}"
                             with outer_cluster.subgraph(name=nested_body_cluster_name) as nested_body_cluster:
-                                nested_body_cluster.attr(label='body', style='filled,dashed', fillcolor='#f8f8f8', # Reverted label to 'body'
+                                nested_body_cluster.attr(label='body', style='filled,dashed', fillcolor='#f8f8f8',
                                                          rankdir='TB', ranksep='0.25', nodesep='0.25')
                                 for item in filtered_body_items:
-                                    _add_nodes_recursive(nested_body_cluster, item, None)
-                    # Handle other fields (non-'body', or 'body' if not a list like in an empty module)
+                                    # Edge from body cluster to item might not need a label, or could be index.
+                                    # Passing field ('body') might be too generic here.
+                                    _add_nodes_recursive(nested_body_cluster, item, None, None) # No explicit parent node_id from cluster boundary, no specific edge label
                     elif isinstance(value, list):
                         filtered_list_items = [v for v in value if v is not None]
                         if filtered_list_items:
-                            # Standard list field handling (e.g. args, orelse, targets, decorator_list)
-                            # These are added to the outer_cluster.
-                            # For single items in a container field, connect directly to parent_id (which is None here, so effectively just adds to cluster)
                             if is_container_field(field) and len(filtered_list_items) == 1:
-                                _add_nodes_recursive(outer_cluster, filtered_list_items[0], None) # Add to outer_cluster, no specific parent node needed inside cluster for this item
+                                # Connect directly to parent_id (which is None here, so adds to outer_cluster), use field as edge label
+                                _add_nodes_recursive(outer_cluster, filtered_list_items[0], None, field) 
                             else:
-                                # Multi-item list or non-container list: create a field_box within outer_cluster
                                 field_box_id = get_unique_id()
-                                fb_is_container_look = is_container_field(field) # len > 1 implied or not a container
+                                fb_is_container_look = is_container_field(field)
                                 fb_style = 'filled,dashed' if fb_is_container_look else 'filled'
                                 fb_color = '#f8f8f8' if fb_is_container_look else 'white'
                                 outer_cluster.node(field_box_id, label=f'<{field}>', style=fb_style, fillcolor=fb_color, shape='box')
-                                # No edge from cluster boundary to field_box_id needed.
+                                # No explicit edge from cluster boundary to field_box_id needed for now, field name is on the box.
+                                # If we wanted an edge from cluster *to* field_box, what would parent_id_for_edge be? It's None currently.
                                 for item in filtered_list_items:
-                                    _add_nodes_recursive(outer_cluster, item, field_box_id) # Items connect to field_box_id
+                                    # Items connect to field_box_id. The edge label could be the index or nothing.
+                                    _add_nodes_recursive(outer_cluster, item, field_box_id, None) # Children of field_box don't need label
                     elif isinstance(value, dict) and 'type' in value:
-                        # Single child dict (e.g. 'test' of If, 'iter' of For)
-                        _add_nodes_recursive(outer_cluster, value, None) # Add to outer_cluster, no specific parent node needed
+                        # Single child dict. Add to outer_cluster, use field as edge label from cluster boundary if we had one.
+                        # Since parent_id_for_edge is None (it's the cluster itself), this means an edge from what?
+                        # The current logic doesn't draw edges from the cluster boundary to these direct children.
+                        # If it did, 'field' would be the label.
+                        _add_nodes_recursive(outer_cluster, value, None, field)
             return # Primary cluster processing is done
 
-        # ---- For all OTHER node types (NOT in PRIMARY_CLUSTER_NODE_TYPES) ----
-        # This is for nodes like Assign, Expr, Name, Constant, BinOp, Call, etc.
-        # Also for container-like nodes that are not primary clusters (e.g. an 'arguments' field box)
-
-        # Skip logic for simple non-primary-cluster containers (e.g. an 'args' list with one arg, if 'args' is not a primary cluster type)
-        is_true_container_type = node_type not in NODE_COLORS and node_type in CONTAINER_FIELDS
-        if is_true_container_type:
-            non_empty_child_lists = []
-            for field_check, value_check in ast_node.items():
-                if field_check in ['type', 'lineno', 'col_offset', 'end_lineno', 'end_col_offset', 'ctx']: continue
-                if value_check is None: continue
-                if isinstance(value_check, list):
-                    filtered_check = [v_chk for v_chk in value_check if v_chk is not None]
-                    if filtered_check: non_empty_child_lists.append((field_check, filtered_check))
-            
-            if len(non_empty_child_lists) == 1 and len(ast_node) <= 3: 
-                field_skip, filtered_skip = non_empty_child_lists[0]
-                if len(filtered_skip) == 1:
-                    return _add_nodes_recursive(current_digraph_obj, filtered_skip[0], parent_id_for_edge)
-
-        # Draw the current ast_node (non-primary-cluster type)
         node_id = get_unique_id()
-        _label = format_label_for_node(ast_node) # Use the original detailed label for individual nodes
+        _label = format_label_for_node(ast_node)
         _color = get_node_color(node_type)
         _style = 'filled'
-        if is_true_container_type: # This node itself is a simple container box (e.g. 'arguments')
+        is_true_container_type = node_type not in NODE_COLORS and node_type in CONTAINER_FIELDS
+        if is_true_container_type: 
              _color = '#f8f8f8' 
              _style = 'filled,dashed'
         current_digraph_obj.node(node_id, label=_label, style=_style, fillcolor=_color, shape='box')
 
         if parent_id_for_edge:
-            current_digraph_obj.edge(parent_id_for_edge, node_id)
+            current_digraph_obj.edge(parent_id_for_edge, node_id, label=edge_label_from_parent)
 
-        # Process fields for this non-primary-cluster node
         for field, value in ast_node.items():
             if field in ['type', 'lineno', 'col_offset', 'end_lineno', 'end_col_offset', 'ctx']: continue
             if value is None: continue
@@ -225,21 +210,21 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
                 filtered_list_items = [v for v in value if v is not None]
                 if filtered_list_items:
                     if is_container_field(field) and len(filtered_list_items) == 1:
-                         _add_nodes_recursive(current_digraph_obj, filtered_list_items[0], node_id)
+                         _add_nodes_recursive(current_digraph_obj, filtered_list_items[0], node_id, field)
                     else:
                         field_box_id = get_unique_id()
                         fb_is_container_look = is_container_field(field)
                         fb_style = 'filled,dashed' if fb_is_container_look else 'filled'
                         fb_color = '#f8f8f8' if fb_is_container_look else 'white'
                         current_digraph_obj.node(field_box_id, label=f'<{field}>', style=fb_style, fillcolor=fb_color, shape='box')
-                        current_digraph_obj.edge(node_id, field_box_id)
+                        current_digraph_obj.edge(node_id, field_box_id, label=field) # Edge from parent node to field_box, label with field name
                         for item in filtered_list_items:
-                            _add_nodes_recursive(current_digraph_obj, item, field_box_id)
+                            _add_nodes_recursive(current_digraph_obj, item, field_box_id, None) # Children of field_box don't need label
             elif isinstance(value, dict) and 'type' in value:
-                _add_nodes_recursive(current_digraph_obj, value, node_id)
+                _add_nodes_recursive(current_digraph_obj, value, node_id, field)
         return node_id
 
-    _add_nodes_recursive(dot, ast_dict, None) # Initial call
+    _add_nodes_recursive(dot, ast_dict, None, None) # Initial call, no parent, no edge label
 
     if legend_mode == 'full':
         bottom_anchor_name = f'bottom_anchor_{name}'
