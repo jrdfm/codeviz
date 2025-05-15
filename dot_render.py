@@ -20,8 +20,7 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
 
     PRIMARY_CLUSTER_NODE_TYPES = {
         'Module', 'FunctionDef', 'AsyncFunctionDef', 'ClassDef',
-        'For', 'AsyncFor', 'While', 'If', 'With', 'AsyncWith',
-        'Try', 'TryStar', 'ExceptHandler'
+         'AsyncFor','AsyncWith','Try', 'TryStar', 'ExceptHandler'
     }
 
     def get_unique_id():
@@ -161,6 +160,7 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
                                margin='8')
                 if parent_id_for_edge and not parent_is_cluster:
                     current_digraph_obj.edge(parent_id_for_edge, outer_cluster_name, label=edge_label_from_parent)
+                # Do NOT create edges from the cluster to its children; just recurse so they are visually inside
                 for field, value in ast_node.items():
                     if field in ['type', 'lineno', 'col_offset', 'end_lineno', 'end_col_offset', 'ctx']:
                         continue
@@ -168,9 +168,9 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
                         continue
                     if isinstance(value, list):
                         for item in value:
-                            _add_nodes_recursive(outer_cluster, item, None, field, parent_is_cluster=True)
+                            _add_nodes_recursive(outer_cluster, item, None, None, parent_is_cluster=True)
                     elif isinstance(value, dict) and 'type' in value:
-                        _add_nodes_recursive(outer_cluster, value, None, field, parent_is_cluster=True)
+                        _add_nodes_recursive(outer_cluster, value, None, None, parent_is_cluster=True)
                 return outer_cluster_name
 
         # Handle regular nodes
@@ -189,9 +189,13 @@ def generate_dot(ast_dict, name='ast', graph_attrs=None, node_attrs=None, edge_a
                 continue
             if isinstance(value, list):
                 for item in value:
-                    _add_nodes_recursive(current_digraph_obj, item, node_id, field, parent_is_cluster=False)
+                    child_id = _add_nodes_recursive(current_digraph_obj, item, None, None, parent_is_cluster=False)
+                    if child_id:
+                        current_digraph_obj.edge(node_id, child_id, label=field)
             elif isinstance(value, dict) and 'type' in value:
-                _add_nodes_recursive(current_digraph_obj, value, node_id, field, parent_is_cluster=False)
+                child_id = _add_nodes_recursive(current_digraph_obj, value, None, None, parent_is_cluster=False)
+                if child_id:
+                    current_digraph_obj.edge(node_id, child_id, label=field)
         return node_id
 
     # Initial call
