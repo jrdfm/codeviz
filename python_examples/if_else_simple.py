@@ -1,7 +1,7 @@
-
-if True:
-    print("True")
+x = 8
+if x > 0:
+    print("Positive")
 else:
-    print("False")
+    print("Negative")
 
 
